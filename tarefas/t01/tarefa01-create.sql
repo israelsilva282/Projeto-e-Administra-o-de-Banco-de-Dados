@@ -1,57 +1,52 @@
--- Desabilitar Foreign Keys
-SET session_replication_role = replica;
-
 DROP TABLE IF EXISTS atividade CASCADE;
 DROP TABLE IF EXISTS projeto CASCADE;
 DROP TABLE IF EXISTS departamento CASCADE;
 DROP TABLE IF EXISTS funcionario CASCADE;
 
--- Habilitando Foreign Keys
-SET session_replication_role = DEFAULT;
-
 -- Criação das Tabelas
 CREATE TABLE funcionario (
-  codigo SERIAL PRIMARY KEY,
-  nome VARCHAR(50),
-  sexo CHAR(1),
-  dtNasc DATE,
-  salario DECIMAL(10, 2),
-  codSupervisor INT,
-  codDepto INT,
-  CONSTRAINT funcSupFK FOREIGN KEY (codSupervisor) REFERENCES funcionario (codigo) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT funcDeptoFK FOREIGN KEY (codDepto) REFERENCES departamento (codigo) ON DELETE SET NULL ON UPDATE CASCADE
+codigo SERIAL PRIMARY KEY,
+nome varchar(50),
+sexo char(1),
+dtNasc date,
+salario numeric(10,2),
+codSupervisor int,
+codDepto int,
+FOREIGN KEY (codSupervisor) REFERENCES funcionario(codigo) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE departamento (
-  codigo SERIAL PRIMARY KEY,
-  sigla VARCHAR(10) UNIQUE,
-  descricao VARCHAR(50),
-  codGerente INT,
-  CONSTRAINT depGerFK FOREIGN KEY (codGerente) REFERENCES funcionario (codigo) ON DELETE SET NULL ON UPDATE CASCADE
+codigo SERIAL PRIMARY KEY,
+sigla varchar(10) UNIQUE,
+descricao varchar(50),
+codGerente int,
+FOREIGN KEY (codGerente) REFERENCES funcionario(codigo) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE projeto (
-  codigo SERIAL PRIMARY KEY,
-  nome VARCHAR(50) UNIQUE,
-  descricao VARCHAR(250),
-  codResponsavel INT,
-  codDepto INT,
-  dataInicio DATE,
-  dataFim DATE,
-  CONSTRAINT projRespFK FOREIGN KEY (codResponsavel) REFERENCES funcionario (codigo) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT projDeptoFK FOREIGN KEY (codDepto) REFERENCES departamento (codigo) ON DELETE SET NULL ON UPDATE CASCADE
+codigo SERIAL PRIMARY KEY,
+nome varchar(50) UNIQUE,
+descricao varchar(250),
+codResponsavel int,
+codDepto int,
+dataInicio date,
+dataFim date,
+FOREIGN KEY (codResponsavel) REFERENCES funcionario(codigo) ON DELETE SET NULL ON UPDATE CASCADE,
+FOREIGN KEY (codDepto) REFERENCES departamento(codigo) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE atividade (
-  codigo SERIAL PRIMARY KEY,
-  descricao VARCHAR(250),
-  codProjeto INT,
-  dataInicio DATE,
-  dataFim DATE,
-  CONSTRAINT atvProjFK FOREIGN KEY (codProjeto) REFERENCES projeto (codigo) ON DELETE SET NULL ON UPDATE CASCADE
+codigo SERIAL PRIMARY KEY,
+descricao varchar(250),
+codProjeto int,
+dataInicio date,
+dataFim date,
+FOREIGN KEY (codProjeto) REFERENCES projeto(codigo) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
-# Povoamento Inicial
+ALTER TABLE funcionario ADD CONSTRAINT funcDeptoFK FOREIGN KEY (codDepto) REFERENCES departamento(codigo) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- Povoamento Inicial
 
 insert into departamento
 (sigla, descricao, codGerente)
@@ -69,7 +64,7 @@ insert into departamento
 (sigla, descricao, codGerente)
 values ('DXT', null, null);
 
-# Adicionando Gerentes
+-- Adicionando Gerentes
 
 insert into funcionario
 (nome, sexo, dtNasc, salario, codSupervisor, codDepto)
@@ -82,7 +77,7 @@ values ('Taciano', 'M', '1980-01-25', 2500.00, null, 2);
 update departamento set codGerente = 1 where sigla = 'DHC';
 update departamento set codGerente = 2 where sigla = 'DCT';
 
-# Adicionando Funcionários
+-- Adicionando Funcionários
 
 insert into funcionario
 (nome, sexo, dtNasc, salario, codSupervisor, codDepto)
@@ -124,7 +119,7 @@ insert into funcionario
 (nome, sexo, dtNasc, salario, codSupervisor, codDepto)
 values ('Tresberta', 'F', '1992-09-01', 3000.00, 4, 3);
 
-# Adicionando Projetos
+-- Adicionando Projetos
 
 insert into projeto(nome, descricao, codDepto, codResponsavel, dataInicio, dataFim)
 values ('APF', 'Analisador de Ponto de Função', 2, 2, '2018-02-26', '2019-06-30');
@@ -138,7 +133,7 @@ values ('BD', 'Projeto de Banco de Dados', 3, 5, '2018-02-26', '2018-06-30');
 insert into projeto(nome, descricao, codDepto, codResponsavel, dataInicio, dataFim)
 values ('ES', 'Projeto de Engenharia de Software', 1, 1, '2018-02-26', '2018-06-30');
 
-# Adicionando Atividades
+-- Adicionando Atividades
 
 insert into atividade(descricao, codProjeto, dataInicio, dataFim)
 values ('APF - Atividade 1', 1, '2018-02-26', '2018-06-30');

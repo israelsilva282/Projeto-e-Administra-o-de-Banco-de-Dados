@@ -1,9 +1,5 @@
--- Faça uma consulta que selecione o nome, o salário e o departamento dos funcionários que não são gerentes, ordenando pelo Código do Departamento.
-
-Select f.nome, f.salario, f.codDepto, d.sigla From funcionario f, departamento d Where f.nome not in (
-    Select f.nome
-    From funcionario f, departamento d
-    Where f.codigo = d.codGerente
-)
-Group by nome
-Order by f.codDepto ASC
+SELECT funcionario.nome, funcionario.salario, departamento.descricao 
+FROM funcionario 
+JOIN departamento ON funcionario.coddepto = departamento.codigo 
+WHERE funcionario.codigo NOT IN (SELECT codgerente FROM departamento) 
+ORDER BY departamento.codigo;
