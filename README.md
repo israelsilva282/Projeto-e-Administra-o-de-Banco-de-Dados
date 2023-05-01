@@ -1,2 +1,5 @@
-# Projeto-e-Administra-o-de-Banco-de-Dados
-Repositório destinado à materia de Banco de Dados do curso Sistemas de Informação da UFRN
+# Projeto e Administração de Banco de Dados
+
+Nome: Israel Costa e Silva
+
+[Tarefa 01](https://github.com/israelsilva282/Projeto-e-Administracao-de-Banco-de-Dados/blob/main/tarefas/t01/tarefa01.md)
