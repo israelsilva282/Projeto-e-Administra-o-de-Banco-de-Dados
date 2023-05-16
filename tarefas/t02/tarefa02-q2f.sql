@@ -13,5 +13,5 @@ BEGIN
     RAISE NOTICE 'Nome do Funcionário: %, Sigla do Departamento: %',
       membro.nome_funcionario, membro.sigla_departamento;
   END LOOP;
-END;
+END;    
 $$ LANGUAGE plpgsql;
