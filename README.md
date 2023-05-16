@@ -3,3 +3,5 @@
 Nome: Israel Costa e Silva
 
 [Tarefa 01](https://github.com/israelsilva282/Projeto-e-Administracao-de-Banco-de-Dados/blob/main/tarefas/t01/tarefa01.md)
+
+[Tarefa 02](https://github.com/israelsilva282/Projeto-e-Administracao-de-Banco-de-Dados/blob/main/tarefas/t02/tarefa02.md)
